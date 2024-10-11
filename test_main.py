@@ -27,24 +27,24 @@ def test_load():
     ) as connection:
         c = connection.cursor()
 
-        table1_name = "jg626_murdersDB"
+        table_name = "jg626_murdersDB"
 
         # Check to see if your first table is there
-        c.execute(f"SHOW TABLES FROM default LIKE '{table1_name}'")
+        c.execute(f"SHOW TABLES FROM default LIKE '{table_name}'")
         result1 = c.fetchall()
 
         # Check if there are rows in your first table
-        c.execute(f"SELECT * FROM {table1_name}")
+        c.execute(f"SELECT * FROM {table_name}")
         result2 = c.fetchall()
 
         c.close()
 
     # Confirm the first table is there and that there are rows inside
     assert result1 is not None
-    assert len(result1) > 0  # Ensure the table exists
+    assert len(result1) > 0
 
     assert result2 is not None
-    assert len(result2) > 0  # Ensure there are rows in the first table
+    assert len(result2) > 0
 
 
 def test_query():
