@@ -39,8 +39,8 @@ def query(dataset="data/murder_2015_final.csv"):
                 ORDER BY jg626_murdersDB.state ASC,city ASC
                 """
         )
-        result = c.fetchall()
-        print(result)
+        c.fetchall()
+        # print(result)
         c.close()
     return "Query Success"
 
