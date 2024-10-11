@@ -1,62 +1,39 @@
 """Query the database"""
 
-import sqlite3
+import os
+import csv
+from databricks import sql
+from dotenv import load_dotenv
 
 
-def read_query():
-    """Query the database for the top 5 rows of the Murder2015 table"""
-    conn = sqlite3.connect("Murder2015.db")
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM Murder2015")
-    print("Top 5 rows of the Murder2015 table:")
-    print(cursor.fetchall())
-    conn.close()
-    return "Read Success"
-
-
-def update_query():
-    conn = sqlite3.connect("Murder2015.db")
-    cursor = conn.cursor()
-    # update execution
-    cursor.execute("UPDATE Murder2015 SET change = 60 WHERE city = 'Chicago' ")
-    conn.commit()
-    conn.close()
-    return "Update Success"
-
-
-def delete_query():
-    conn = sqlite3.connect("Murder2015.db")
-    cursor = conn.cursor()
-    # delete execution
-    cursor.execute("DELETE FROM Murder2015 WHERE city = 'Chicago'")
-    conn.commit()
-    conn.close()
-    return "Delete Success"
-
-
-def sorting_Change():
-    # Connect to the database
-    conn = sqlite3.connect("Murder2015.db")
-    cursor = conn.cursor()
-
-    # Execute SQL query
-    query = """
-    SELECT state, city
-    FROM Murder2015
-    ORDER BY change;
-    """
-    cursor.execute(query)
-    # Fetch results
-    results = cursor.fetchall()
-    # Close connection
-    conn.commit()
-    conn.close()
-    print(results)
-    return "Sort Success"
-
-
-if __name__ == "__main__":
-    read_query()
-    update_query()
-    delete_query()
-    sorting_Change()
+def query(dataset="data/murder_2015_final.csv"):
+    """A complex SQL query involving joins, aggregation, and sorting"""
+    payload = csv.reader(open(dataset, newline=""), delimiter=",")
+    next(payload)
+    load_dotenv()
+    server_h = os.getenv("sql_server_host")
+    access_token = os.getenv("databricks_api_key")
+    http_path = os.getenv("sql_http")
+    with sql.connect(
+        server_hostname=server_h,
+        http_path=http_path,
+        access_token=access_token,
+    ) as connection:
+        c = connection.cursor()
+        c.execute(
+            """
+                WITH temp_murders AS (SELECT state,
+                    AVG(2015_murders) AS avg_state_2015_murders,
+                    AVG(2014_murders) AS avg_state_2014_murders
+                FROM jg626_murdersDB
+                GROUP BY state)
+                SELECT city,jg626_murdersDB.state, 2015_murders,avg_state_2015_murders,2014_murders,avg_state_2014_murders
+                FROM jg626_murdersDB
+                JOIN temp_murders
+                ON jg626_murdersDB.state = temp_murders.state
+                ORDER BY jg626_murdersDB.state,city
+                """
+        )
+        result = c.fetchall()
+        print(result)
+        c.close()
