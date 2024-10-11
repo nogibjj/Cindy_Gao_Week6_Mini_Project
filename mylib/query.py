@@ -31,7 +31,7 @@ def query(dataset="data/murder_2015_final.csv"):
                 FROM jg626_murdersDB
                 JOIN temp_murders
                 ON jg626_murdersDB.state = temp_murders.state
-                ORDER BY jg626_murdersDB.state,city
+                ORDER BY jg626_murdersDB.state ASC,city ASC
                 """
         )
         result = c.fetchall()
