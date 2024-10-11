@@ -22,12 +22,17 @@ def query(dataset="data/murder_2015_final.csv"):
         c = connection.cursor()
         c.execute(
             """
-                WITH temp_murders AS (SELECT state,
-                    AVG(2015_murders) AS avg_state_2015_murders,
-                    AVG(2014_murders) AS avg_state_2014_murders
-                FROM jg626_murdersDB
-                GROUP BY state)
-                SELECT city,jg626_murdersDB.state, 2015_murders,avg_state_2015_murders,2014_murders,avg_state_2014_murders
+                WITH temp_murders AS (
+                    SELECT state,
+                        AVG(2015_murders) AS avg_state_2015_murders,
+                        AVG(2014_murders) AS avg_state_2014_murders
+                    FROM jg626_murdersDB
+                    GROUP BY state
+                )
+                SELECT city,
+                    jg626_murdersDB.state, 
+                    2015_murders,avg_state_2015_murders,
+                    2014_murders,avg_state_2014_murders
                 FROM jg626_murdersDB
                 JOIN temp_murders
                 ON jg626_murdersDB.state = temp_murders.state
