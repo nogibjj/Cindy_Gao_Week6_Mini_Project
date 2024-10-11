@@ -42,3 +42,8 @@ def query(dataset="data/murder_2015_final.csv"):
         result = c.fetchall()
         print(result)
         c.close()
+    return "Query Success"
+
+
+if __name__ == "__main__":
+    query()

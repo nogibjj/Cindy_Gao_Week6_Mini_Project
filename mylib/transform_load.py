@@ -42,7 +42,7 @@ def load(dataset="data/murder_2015_final.csv"):
             )
         c.executemany("INSERT INTO jg626_murdersDB VALUES (?,?,?,?,?)", payload)
         c.close()
-        return "success"
+    return "success"
 
 
 if __name__ == "__main__":
