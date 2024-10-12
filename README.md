@@ -57,7 +57,19 @@ Here is a screenshot of the database connection on Databricks: <br><br>
 ## SQL Query Explanation:
 The query joins the original table **jg626_murdersdb** with a temporary table **temp_murders**, calculates the average number of murders for each state in 2014 and 2015 and then combines these averages with the actual number of murders in each city. It then orders the results by state and city. <br><br>
 Here is a screenshot of SQL editor on Databricks for the complex query: <br><br>
-![image](https://github.com/user-attachments/assets/204226e2-27d1-4e07-9d8a-e953f93ea74f)
+```Python
+WITH temp_murders AS (SELECT state,
+                    AVG(2015_murders) AS avg_state_2015_murders,
+                    AVG(2014_murders) AS avg_state_2014_murders
+                FROM jg626_murdersDB
+                GROUP BY state)
+SELECT city,jg626_murdersDB.state, 2015_murders,avg_state_2015_murders,2014_murders,avg_state_2014_murders
+FROM jg626_murdersDB
+JOIN temp_murders
+ON jg626_murdersDB.state = temp_murders.state
+ORDER BY jg626_murdersDB.state,city
+```
+<br><br>
 And a screenshot for the data output:<br><br>
 ![image](https://github.com/user-attachments/assets/ffa241ef-3ac5-450d-850d-71210ecc2411)
 
