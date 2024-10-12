@@ -16,9 +16,9 @@ def test_extract():
 
 def test_load():
     # Connect to Databricks
-    server_h = os.getenv("sql_server_host")
-    access_token = os.getenv("databricks_api_key")
-    http_path = os.getenv("sql_http")
+    server_h = os.getenv("SQL_SERVER_HOST")
+    access_token = os.getenv("DATABRICKS_API_KEY")
+    http_path = os.getenv("SQL_HTTP")
 
     with sql.connect(
         server_hostname=server_h,
