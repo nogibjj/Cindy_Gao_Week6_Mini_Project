@@ -1,3 +1,4 @@
+[![CI](https://github.com/nogibjj/Cindy_Gao_Week6_Mini_Project/actions/workflows/cicd.yml/badge.svg)](https://github.com/nogibjj/Cindy_Gao_Week6_Mini_Project/actions/workflows/cicd.yml)
 # Complex SQL Query for a MySQL Database
 ## Requirements:
 
@@ -16,8 +17,8 @@
 - **data**: Contains extracted dataset CSV file: `murder_2015_final.csv`.
 - **mylib**: Contains:
   - `extract.py`: Extracts a dataset from a URL.
-  - `query.py`: Contains functions including load query with joining a table using column: state, aggregating by group by the same state for different cities, and calculate the average murders for both 2014 and 2015, then sorting alphabetically by the state and city name.
-  - `transform_load.py`: Establishing a database connection to Databrick.
+  - `query.py`: Contains a function called query including query with creating and joining a temporary table called **temp_murders** using column: state, aggregating by group by the same state for different cities, and calculate the average murders for both 2014 and 2015, then sorting alphabetically by the state and city name.
+  - `transform_load.py`: Establishing a database connection called **jg626_murdersdb** to Databrick.
 
 ```plaintext
 Cindy_Gao_sqlite_lab/
